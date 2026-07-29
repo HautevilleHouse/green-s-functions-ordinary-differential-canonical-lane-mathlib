@@ -1,0 +1,23 @@
+import GreenSFunctionsOrdinaryDifferentialCanonicalLaneLean.FredholmAlternative
+import GreenSFunctionsOrdinaryDifferentialCanonicalLaneLean.SingularSturmLiouville
+import GreenSFunctionsOrdinaryDifferentialCanonicalLaneLean.GreenSFunctionConstruction
+
+namespace HautevilleHouse
+namespace GreenSFunctionsOrdinaryDifferentialCanonicalLaneLean
+
+structure GreenSFunctionAnalyticFoundation where
+  greenSPackage : GreenSFunctionPackage
+  greenSPackageEvidence : GreenSFunctionEvidence greenSPackage
+  sturmLiouville : SingularSturmLiouvillePackage greenSPackage
+  sturmLiouvilleEvidence : SingularSturmLiouvilleEvidence sturmLiouville
+  fredholm : FredholmAlternativePackage
+  fredholmEvidence : FredholmAlternativeEvidence fredholm
+
+def GreenSFunctionAnalyticFoundationClosed (A : GreenSFunctionAnalyticFoundation) : Prop :=
+  GreenSFunctionClosed A.greenSPackage ∧ SingularSturmLiouvilleClosed A.sturmLiouville ∧ FredholmAlternativeClosed A.fredholm
+
+theorem green_s_function_analytic_foundation_closed_from_evidence (A : GreenSFunctionAnalyticFoundation) : GreenSFunctionAnalyticFoundationClosed A := by
+  exact And.intro (green_s_function_closed_from_evidence A.greenSPackage A.greenSPackageEvidence) (And.intro (singular_sturm_liouville_closed_from_evidence A.sturmLiouville A.sturmLiouvilleEvidence) (fredholm_alternative_closed_from_evidence A.fredholm A.fredholmEvidence))
+
+end GreenSFunctionsOrdinaryDifferentialCanonicalLaneLean
+end HautevilleHouse
